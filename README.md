@@ -41,7 +41,7 @@ Simply click the **Code** dropdown button at the top-right of this page (scroll 
 
 ## Acknowledgments
 
-This workshop is offered through the University of Wyoming. A huge thank you to the Wyoming Bird Initiative for Resilience and Diversity (WYOBIRD) for supporting the workshop. 
+This workshop at the University of Wyoming was made possible by the Wyoming Bird Initiative for Resilience and Diversity (WYOBIRD). A special thank you Dr. Corey Tarwater for assisting with logistics, support, and conceptualization.
 
 
 ---
