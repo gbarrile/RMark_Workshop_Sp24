@@ -1,8 +1,8 @@
 # RMark Workshop (Spring 2024)
 
-Welcome to the RMark workshop! We will introduce key software packages and fundamental models used in fish and wildlife population analysis. Course content includes the parameterization of models used to estimate ecological state variables (occupancy, abundance) and population vital rates (survival, recruitment, dispersal) of both marked and unmarked populations, accounting for imperfect capture/detection probability. The course will cover closed population models, Cormack-Jolly-Seber models, multistate models, reverse-time Pradel models, and Robust Design models with capture-mark-recapture data, closed and open N-mixture models with repeated count data, and site-occupancy models with detection/nondetection data. Models will be fit using the ‘RMark’ and ‘unmarked’ packages in Program R. Each class will begin with an introduction to the subject material through a brief lecture followed by the application of the concepts through exercises in R (e.g., formatting data, fitting and selecting models, visualizing predicted relationships) using simulated or real datasets. Students will be encouraged to use their own data when possible.
+Welcome to the RMark workshop! This workshop introduces participants to fundamental models used in fish and wildlife population analysis. Although examples focus on avian systems, models covered in this workshop can be applied across animal taxa. Course content includes the parameterization of models used to estimate ecological state variables (occupancy, abundance) and population vital rates (survival, recruitment, dispersal) of both marked and unmarked populations, accounting for imperfect capture/detection probability. The workshop covers closed population models, Cormack-Jolly-Seber models, multistate models, reverse-time Pradel models, and Robust Design models with capture-mark-recapture data, site-occupancy models with detection-nondetection data, known-fate models with biotelemetry data, and nest survival models with data from nest checks. Models are fitted using the ‘RMark’ package in Program R. Each mini lesson will begin with an introduction to the subject material through a brief lecture followed by the application of the concepts through exercises in R (e.g., formatting data, fitting and selecting models, visualizing predicted relationships) using simulated or real datasets.
 
-I will post a video lesson each week to introduce the topic that we will cover in the following week. Please watch each weekly video prior to the start of class in the following week. Search for videos under **'Video Lessons'** below. Videos will appear under the date on which they were posted. Finally, please read the **'Additional Instructions'** below on downloading/installing the software and packages required to execute the R scripts that accompany each lesson. 
+For instructions on how to download individual folders from a GitHub repository, please search for the video under **'Video Lessons'** below. Also, please see the **'To complete before coming to the workshop'** section below on downloading/installing the software and packages required to execute the R scripts that accompany each mini lesson. 
 
 ## Instructor
 [Gabriel Barrile](https://gabrielbarrile.weebly.com/)
@@ -17,7 +17,7 @@ I will post a video lesson each week to introduce the topic that we will cover i
 
 ---
 
-## Please complete before coming to the workshop
+## To complete before coming to the workshop
 
 Download and install the following programs for your platform:
 
