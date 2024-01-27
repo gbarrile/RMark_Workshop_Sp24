@@ -2,19 +2,18 @@
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-# POPULATION MODELING IN ECOLOGY
-# ZOO 5890-09
+# RMark Workshop
 # University of Wyoming
-# Spring 2023
+# Spring 2024
 
-# Week 3 - Closed Population Estimation
+# Model 1 - Closed Population Estimation
 
 # Description: code to fit the 'Closed' model for abundance in the 'RMark' package
 
-# Addressing the question: "How does boreal toad abundance vary across ponds?"
+# Addressing the question: "How does common loon abundance vary across ponds?"
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/06/2023
+# Last updated 02/12/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -62,17 +61,17 @@ citation("RMark")
 # ---- 2) Read-in input data -----
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
-# you will need to set working directory to where you saved the 'BorealToad_CaptureRecapture.csv'
+# you will need to set working directory to where you saved the 'CommonLoon_CaptureRecapture.csv'
 setwd()
 
-# read-in the boreal toad capture-mark-recapture data from our three ponds
-df <- read.csv("BorealToad_CaptureRecapture.csv")
+# read-in the common loon capture-mark-recapture data from our three ponds
+df <- read.csv("CommonLoon_CaptureRecapture.csv")
 
 # take a peek at the data
 head(df)
 
 # how many individuals were captured?
-n_distinct(df$Tag) # 137 unique toads
+n_distinct(df$Tag) # 137 unique loons
 
 # how many unique individuals were captured at each pond?
 df %>% 
@@ -128,8 +127,8 @@ table(nchar(y$ch))
 # Pond
 y$Pond <- df$Pond[match(y$Tag, df$Tag)]
 
-# SVL
-# let's just grab the average SVL of each toad over the study period
+# Body Size
+# let's just grab the average body size of each loon over the study period
 svl <- aggregate(SVL ~ Tag, data=df, FUN=mean)
 head(svl)
 
@@ -152,7 +151,7 @@ rm(m,svl,y)
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Check capture histories against our field data
-# Look at toads with the following tag numbers: 100, 101, and 102
+# Look at loons with the following tag numbers: 100, 101, and 102
 head(df %>% arrange(Tag), 10)
 # Do the capture histories ('ch' column in boto) make sense for those three individuals?
 head(boto, 3)
@@ -449,7 +448,7 @@ ggplot(cap, aes(x=survey, y=estimate, group=pond, color=pond)) +
 # thus permitting the modelling of capture probability as a function of individual covariates
 
 # the parameter f0 is therefore not modeled in the Huggins framework. Not having to model
-# this parameter is nice in many cases, so we will use several Huggins models in this course
+# this parameter is nice in many cases, so we will use several Huggins models in this workshop
 
 # okay, process the data
 d.proc=process.data(boto, model="Huggins") 
@@ -543,7 +542,7 @@ m3$results$derived
 
 
 
-# Let's try svl as individual covariate on capture probability
+# Let's try body size as individual covariate on capture probability
 
 # p (capture probability)
 pc.svl =list(formula= ~ svl, share = TRUE)
@@ -567,7 +566,7 @@ m4$results$real
 m4$results$derived
 
 
-# plot relationship between capture probability and SVL
+# plot relationship between capture probability and body size
 range(boto$svl)
 # make predictions based on model (m4)
 pred.svl <- covariate.predictions(m4, data=data.frame(svl=56:88),indices=c(1))$estimates
@@ -577,7 +576,7 @@ max(pred.svl$ucl)
 op <- par(mar = c(5,5,4,2) + 0.1) # default is 5,4,4,2
 plot(x = pred.svl$covdata, y = pred.svl$estimate, pch=16, 
      ylab = "Capture Probability",
-     xlab = "SVL (mm)", cex.lab=1.5, cex.axis=1.2, 
+     xlab = "Body Size", cex.lab=1.5, cex.axis=1.2, 
      col="darkgray", ylim=c(0.1,0.5))
 box(lwd = 4, col = 'black')
 lines(pred.svl$covdata, pred.svl$estimate, lwd=8, col="blue")
