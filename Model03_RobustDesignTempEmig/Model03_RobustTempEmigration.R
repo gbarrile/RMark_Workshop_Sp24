@@ -31,6 +31,7 @@
 # 3) Format data for RMark
 # 4) Fit Robust Design models
 # 5) Prediction and plotting
+# 6) Accounting for transience
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -716,6 +717,94 @@ par(mfrow = c(1,2))
 mapPalette <- colorRampPalette(c("grey", "yellow", "orange", "red"))
 plot(predRast2, col = mapPalette(100), axes = F, box = F, main = "BFF Survival Probability")
 plot(pptmask, col = mapPalette(100), axes = F, box = F, main = "Average Annual Precip (mm)")
+
+
+
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+# ---- 6) Accounting for transience -----
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# specify formulas for each model parameter
+pc.site = list(formula=~site, share = TRUE)
+# constant, random Emigration (share the gamma parameters)
+GS. = list(formula=~1, share = TRUE)
+
+# Now...incorporating transience into mark-recapture models
+
+# The seminal paper by Pradel et al. (1997) defined a transient individual as:
+# 'an individual that is marked, released, and which then permanently emigrates
+# from the sample, such that it is no longer available for encounter in the future'.
+
+# Pradel, R., J. E. Hines, J-D. Lebreton, and J. D. Nichols. 1997. 
+# Capture-recapture survival models taking account of transients. Biometrics 53:60-72.
+
+# Soooo, you might define transient individuals as newly captured ferrets that were marked, 
+# released, and then permanently emigrated from your study area, such that those 'nomadic' 
+# animals were no longer available for encounter during subsequent surveys. Resident survival probability 
+# can be negatively biased if transience is not modeled appropriately (e.g., if transience exists in the population, 
+# estimated apparent survival will be lower following first capture). You could therefore fit each model structure for 
+# survival both with and without transience and compare them. Transience can be incorporated into survival models 
+# following the methods employed by Muths et al. (2018) (see Appendix S2 in Muths et al., 2018, for details)...which we do below in the code.
+
+# Muths, E., L. L. Bailey, B. A. Lambert, and S. C. Schneider. (2018). Estimating the Probability of Movement and 
+# Partitioning Seasonal Survival in an Amphibian Metapopulation. Ecosphere 9(10): e02480.
+
+
+# HOW TO ADD TRANSIENCE IN RMARK MODELS
+
+# look at ddl for survival
+head(d.ddl$S)
+
+# add a 'time since marking' variable to the survival ddl
+d.ddl$S$tsm <- NA   # add new column
+d.ddl$S$tsm <- "1"  # most values in the column will be 1's (though we will want this as a factor variable)
+
+# when individiuals first enter the mark-recap dataset, they get assigned age = 0
+# we want to assign this a different factor level than all subsequent encounters because we want to 'identify'
+# individuals that only appear in the dataset once as potential transients
+d.ddl$S$tsm[d.ddl$S$age=="0"] <- "0" 
+
+# make sure the new variable is a factor
+d.ddl$S$tsm <- as.factor(d.ddl$S$tsm)
+str(d.ddl$S)
+
+# take a peak at the ddl
+head(d.ddl$S)
+
+# Potential structure for survival
+S.tsm = list(formula=~tsm)
+
+# fit models
+
+# you will need (want) an output folder for the mark files, just so your
+# directory does not get cluttered
+# Create a new folder called 'models' in your working directory
+# set working directory to that folder
+setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+
+# to fit models, we need:
+# our processed data (d.proc)
+# our design data (d.ddl)
+# model structures for p (capture probability), S (survival probability)
+# and the temporary emigration parameters (gamma parameters)
+
+# Random Emigration models
+# constant
+rand. <- mark(d.proc, d.ddl, model.parameters=list(S = S.tsm, GammaDoublePrime = GS., p = pc.site))
+
+# IF that was your survival model, here's how you could assess transience
+rand.$results$real
+# just want survival estimates
+tr <- rand.$results$real[1:2,]
+tr
+
+# Transience
+1 - (tr$estimate[1]/tr$estimate[2]) # estimate of the proportion of transients is 0.07
+
+# Survival (for residents or non-transients)
+tr$estimate[2] # 0.77
+
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
