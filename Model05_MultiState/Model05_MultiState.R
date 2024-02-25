@@ -19,7 +19,7 @@
 # How does boreal toad dispersal vary among our three study ponds?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/18/2024
+# Last updated 02/22/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -71,9 +71,6 @@ citation("RMark")
 setwd()
 
 # read-in the boreal toad capture-mark-recapture data
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model05_MultiState")
-
-# read-in data from the csv
 df <- read.csv("BorealToad_Dispersal.csv")
 
 # take a peek at the data
@@ -379,7 +376,7 @@ Psi.ponds=list(formula=~-1+stratum:tostratum)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -393,13 +390,16 @@ m.timexpond <- mark(d.proc,
                     d.ddl, 
                     model.parameters=list(S   = S.timexpond,
                                           Psi = Psi.timexpond,
-                                          p   = p.timexpond))
+                                          p   = p.timexpond),
+                    delete = TRUE)
+
 # movement varies among ponds
 m.pond <- mark(d.proc,
                d.ddl, 
                model.parameters=list(S   = S.timexpond,
                                      Psi = Psi.ponds,
-                                     p   = p.timexpond))
+                                     p   = p.timexpond),
+               delete = TRUE)
 
 
 
