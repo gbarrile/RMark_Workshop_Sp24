@@ -24,7 +24,7 @@
 # considering potential reintroduction sites?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/16/2024
+# Last updated 02/15/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -77,9 +77,6 @@ citation("RMark")
 setwd()
 
 # read-in the black-footed ferret capture-mark-recapture data
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model04_PradelRecruitment")
-
-# read-in data from the csv
 df <- read.csv("Ferrets_CMR.csv")
 
 # take a peek at the data
@@ -412,7 +409,7 @@ stmod = list(formula=~site * time)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -424,12 +421,12 @@ setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Model
 # precipitation * rangeland health for both survival and recruitment
 m.precip <- mark(d.proc, d.ddl, model.parameters=list(p   = pc.site, 
                                                       Phi = covmod, 
-                                                      f   = covmod))
+                                                      f   = covmod), delete = TRUE)
 
 # space * time for both survival and recruitment
 m.st <- mark(d.proc, d.ddl, model.parameters=list(p   = pc.site, 
                                                   Phi = stmod, 
-                                                  f   = stmod))
+                                                  f   = stmod), delete = TRUE)
 
 # look at model output from covariate model
 
