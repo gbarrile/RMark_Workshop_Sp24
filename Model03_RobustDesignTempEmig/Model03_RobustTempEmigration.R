@@ -18,7 +18,7 @@
 # Does annual precipitation influence the survival of black-footed ferrets at reintroduction sites?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/15/2024
+# Last updated 02/25/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -71,9 +71,6 @@ citation("RMark")
 setwd()
 
 # read-in the black-footed ferret capture-mark-recapture data
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model03_RobustDesignTempEmig")
-
-# read-in data from the csv
 df <- read.csv("Ferrets_CMR.csv")
 
 # take a peek at the data
@@ -445,7 +442,7 @@ GP.no = list(formula =~1, fixed = 0)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -455,30 +452,30 @@ setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Model
 
 # Random Emigration models
 # constant
-rand. <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS., p = pc.site))
+rand. <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS., p = pc.site), delete = TRUE)
 # time
-rand.t <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.t, p = pc.site))
+rand.t <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.t, p = pc.site), delete = TRUE)
 # space
-rand.s <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.s, p = pc.site))
+rand.s <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.s, p = pc.site), delete = TRUE)
 # time + space
-rand.ts <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.ts, p = pc.site))
+rand.ts <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.ts, p = pc.site), delete = TRUE)
 # time * space
-rand.txs <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.txs, p = pc.site))
+rand.txs <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GS.txs, p = pc.site), delete = TRUE)
 
 # Markovian Emigration models
 # constant
-marko. <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP., GammaPrime= GP., p = pc.site))
+marko. <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP., GammaPrime= GP., p = pc.site), delete = TRUE)
 # time
-marko.t <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.t, GammaPrime= GP.t, p = pc.site))
+marko.t <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.t, GammaPrime= GP.t, p = pc.site), delete = TRUE)
 # space
-marko.s <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.s, GammaPrime= GP.s, p = pc.site))
+marko.s <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.s, GammaPrime= GP.s, p = pc.site), delete = TRUE)
 # time + space
-marko.ts <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.ts, GammaPrime= GP.ts, p = pc.site))
+marko.ts <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.ts, GammaPrime= GP.ts, p = pc.site), delete = TRUE)
 # time * space
-marko.txs <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.txs, GammaPrime= GP.txs, p = pc.site))
+marko.txs <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.txs, GammaPrime= GP.txs, p = pc.site), delete = TRUE)
 
 # No Temporary Emigration model
-no.emig <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.no, GammaPrime= GP.no, p = pc.site))
+no.emig <- mark(d.proc, d.ddl, model.parameters=list(S = S.ppt, GammaDoublePrime = GDP.no, GammaPrime= GP.no, p = pc.site), delete = TRUE)
 
 
 #################################
@@ -630,8 +627,8 @@ ggplot(popsize, aes(x=Year, y=estimate, group=Site, color=Site)) +
 
 # use raster for average precipitation across the range of potential sites
 
-# set working directory to the data folder for this week
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model03_RobustDesignTempEmig")
+# set working directory to the Model03 folder to read in the precip raster
+setwd()
 
 # read-in the precip raster
 library(raster)
@@ -656,7 +653,7 @@ res(avgppt) # we now have a 25000 m x 25000 m resolution (grid size)
 # plot again
 plot(avgppt)
 
-# visulaize with mapview
+# visualize with mapview
 library(mapview)
 mapview(avgppt)
 
@@ -781,7 +778,7 @@ S.tsm = list(formula=~tsm)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -791,7 +788,7 @@ setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Model
 
 # Random Emigration models
 # constant
-rand. <- mark(d.proc, d.ddl, model.parameters=list(S = S.tsm, GammaDoublePrime = GS., p = pc.site))
+rand. <- mark(d.proc, d.ddl, model.parameters=list(S = S.tsm, GammaDoublePrime = GS., p = pc.site), delete = TRUE)
 
 # IF that was your survival model, here's how you could assess transience
 rand.$results$real
@@ -800,7 +797,7 @@ tr <- rand.$results$real[1:2,]
 tr
 
 # Transience
-1 - (tr$estimate[1]/tr$estimate[2]) # estimate of the proportion of transients is 0.07
+1 - (tr$estimate[1]/tr$estimate[2]) # estimate of the proportion of transients is 0.13
 
 # Survival (for residents or non-transients)
 tr$estimate[2] # 0.77
