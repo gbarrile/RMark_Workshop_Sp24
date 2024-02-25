@@ -275,7 +275,8 @@ setwd()
 m1 <- mark(d.proc,
            d.ddl, 
            model.parameters = list(p = pc.,
-                                   f0= f0.))
+                                   f0= f0.),
+           delete = TRUE)
 
 
 # look at model output
@@ -341,7 +342,8 @@ f0.pond =list(formula= ~ pond)
 m2 <- mark(d.proc,
            d.ddl, 
            model.parameters = list(p = p.timepond,
-                                   f0= f0.pond))
+                                   f0= f0.pond),
+           delete = TRUE)
 
 
 # look at model output
@@ -498,7 +500,8 @@ pc.=list(formula= ~ 1, share = TRUE)
 # fit Model 3
 m3 <- mark(d.proc,
            d.ddl, 
-           model.parameters = list(p = pc.))
+           model.parameters = list(p = pc.),
+           delete = TRUE)
 
 
 # look at model output
@@ -551,7 +554,8 @@ pc.svl =list(formula= ~ svl, share = TRUE)
 # fit Model 4
 m4 <- mark(d.proc,
            d.ddl, 
-           model.parameters = list(p = pc.svl))
+           model.parameters = list(p = pc.svl),
+           delete = TRUE)
 
 
 # look at model output
