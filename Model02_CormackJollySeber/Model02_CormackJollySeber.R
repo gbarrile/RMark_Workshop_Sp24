@@ -70,8 +70,6 @@ citation("RMark")
 
 # you will need to set working directory to where you saved the 'BrookTrout_EnergyDevelopment.csv'
 setwd()
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model02_CormackJollySeber")
-
 
 # read-in the brook trout capture-mark-recapture data from the streams that we surveyed 
 df <- read.csv("BrookTrout_EnergyDevelopment.csv")
@@ -295,7 +293,7 @@ d.ddl$Phi
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -304,21 +302,21 @@ setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Model
 # hold phi at high complexity (Phi.glob) while varying structures for capture prob
 
 # 1. constant
-m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.glob))
+m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.glob), delete = TRUE)
 # 2. year (time)
-m.t    <- mark(d.proc, d.ddl, model.parameters = list(p = p.t, Phi = Phi.glob))
+m.t    <- mark(d.proc, d.ddl, model.parameters = list(p = p.t, Phi = Phi.glob), delete = TRUE)
 # 3. year (Time)
-m.tnum <- mark(d.proc, d.ddl, model.parameters = list(p = p.tnum, Phi = Phi.glob))
+m.tnum <- mark(d.proc, d.ddl, model.parameters = list(p = p.tnum, Phi = Phi.glob), delete = TRUE)
 # 4. location (space)
-m.s    <- mark(d.proc, d.ddl, model.parameters = list(p = p.s, Phi = Phi.glob))
+m.s    <- mark(d.proc, d.ddl, model.parameters = list(p = p.s, Phi = Phi.glob), delete = TRUE)
 # 5. 'age'
-m.a    <- mark(d.proc, d.ddl, model.parameters = list(p = p.a, Phi = Phi.glob))
+m.a    <- mark(d.proc, d.ddl, model.parameters = list(p = p.a, Phi = Phi.glob), delete = TRUE)
 # 6. cohort
-m.c    <- mark(d.proc, d.ddl, model.parameters = list(p = p.c, Phi = Phi.glob))
+m.c    <- mark(d.proc, d.ddl, model.parameters = list(p = p.c, Phi = Phi.glob), delete = TRUE)
 # 7. year (time) + location
-m.ts   <- mark(d.proc, d.ddl, model.parameters = list(p = p.ts, Phi = Phi.glob))
+m.ts   <- mark(d.proc, d.ddl, model.parameters = list(p = p.ts, Phi = Phi.glob), delete = TRUE)
 # 8. year (time) * location
-m.txs <- mark(d.proc, d.ddl, model.parameters = list(p = p.txs, Phi = Phi.glob))
+m.txs <- mark(d.proc, d.ddl, model.parameters = list(p = p.txs, Phi = Phi.glob), delete = TRUE)
 
 
 #################################
@@ -429,7 +427,7 @@ Phi.txs = list(formula=~time * location)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # to fit models, we need:
 # our processed data (d.proc)
@@ -439,21 +437,21 @@ setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Model
 # while varying structures for apparent survival 
 
 # 1. constant
-m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.))
+m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.), delete = TRUE)
 # 2. year (time)
-m.t    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.t))
+m.t    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.t), delete = TRUE)
 # 3. year (Time)
-m.tnum <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.tnum))
+m.tnum <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.tnum), delete = TRUE)
 # 4. location (space)
-m.s    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.s))
+m.s    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.s), delete = TRUE)
 # 5. 'age'
-m.a    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.a))
+m.a    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.a), delete = TRUE)
 # 6. cohort
-m.c    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.c))
+m.c    <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.c), delete = TRUE)
 # 7. year (time) + location
-m.ts   <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.ts))
+m.ts   <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.ts), delete = TRUE)
 # 8. year (time) * location
-m.txs  <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.txs))
+m.txs  <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.txs), delete = TRUE)
 
 
 #################################
