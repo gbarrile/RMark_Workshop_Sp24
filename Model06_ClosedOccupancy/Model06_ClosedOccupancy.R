@@ -25,7 +25,7 @@
 #  of brown tree snakes on pacific islands?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/18/2024
+# Last updated 02/23/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -44,7 +44,7 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 # ---- 1) Install and load packages -----
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
-# Check if unmarked and tidyverse are installed.
+# Check if RMark and tidyverse are installed.
 # If yes, load them.  If not, install, then load.
 
 # RMark for fitting the Closed (Static) Occupancy Model
@@ -70,7 +70,6 @@ citation("RMark")
 
 # you will need to set working directory to where you saved the 'BrownTreeSnake_IslandSurveys.csv'
 setwd()
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model06_ClosedOccupancy")
 
 # read-in the brown tree snake data 
 df <- read.csv("BrownTreeSnake_IslandSurveys.csv")
@@ -182,7 +181,7 @@ prey
 # or just add it to y data frame
 y$prey <- df$Prey[match(y$Island, df$Island)]
 
-# Format region as a site-level covariate (we might use it as a random effect)
+# Format region as a site-level covariate
 df$Region <- as.factor(as.character(df$Region))
 region <- unique(df[,c("Island","Region")])
 region <- as.matrix(region[,"Region"])
@@ -313,13 +312,14 @@ Psi.int = list(formula =  ~  forest * prey)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 occ <- mark(t.proc, # processed data
             t.ddl,  # design data
             model.parameters=list(Psi = Psi.int,   # initial occupancy
-                                  p =   p.temp))      # detection
+                                  p =   p.temp),   # detection
+            delete = TRUE)     
 
 
 # check out model output
