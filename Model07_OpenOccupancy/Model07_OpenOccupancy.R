@@ -30,7 +30,7 @@
 # How does little tern breeding occurrence change over time on beaches in northern Europe?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/20/2024
+# Last updated 02/25/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -83,9 +83,6 @@ citation("RMark")
 setwd()
 
 # read-in the little tern detection/nondetection data from the beaches that we surveyed 
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/RMark_Workshop_Sp24/Model07_OpenOccupancy")
-
-# read-in data from the csv
 df <- read.csv("LittleTern_Breeding.csv")
 
 # take a peek at the data
@@ -276,7 +273,7 @@ G.1 = list(formula =  ~ time)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 occ <- mark(t.proc, # processed data
@@ -284,7 +281,8 @@ occ <- mark(t.proc, # processed data
             model.parameters=list(Psi = Psi.1,   # initial occupancy
                                   Gamma = G.1,   # colonization
                                   Epsilon = E.1, # extinciton
-                                  p = p.1))      # detection
+                                  p = p.1),      # detection
+            delete = TRUE)
 
 
 # check out model output
@@ -575,7 +573,7 @@ G.1 = list(formula =  ~ 1)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 occ <- mark(t.proc, # processed data
@@ -583,7 +581,8 @@ occ <- mark(t.proc, # processed data
             model.parameters=list(Psi = Psi.1,   # initial occupancy
                                   Gamma = G.1,   # colonization
                                   Epsilon = E.1, # extinciton
-                                  p = p.1))      # detection
+                                  p = p.1),
+            delete = TRUE)      # detection
 
 
 # check out model output
@@ -663,7 +662,7 @@ t.ddl$Gamma # colonization probability
 G.1 = list(formula =  ~ 1)
 
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 occ <- mark(t.proc, # processed data
@@ -671,7 +670,8 @@ occ <- mark(t.proc, # processed data
             model.parameters=list(Psi = Psi.1,   # initial occupancy
                                   Gamma = G.1,   # colonization
                                   Epsilon = E.1, # extinciton
-                                  p = p.1))      # detection
+                                  p = p.1),      # detection
+            delete = TRUE)      
 
 
 
@@ -706,7 +706,7 @@ op <- par(mar = c(5,5,4,2) + 0.1) # default is 5,4,4,2
 plot(x = iocc$rockcov, y = iocc$estimate, pch=16, 
      ylab = "Initial occupancy",
      xlab = "Rock cover (%)", cex.lab=1.5, cex.axis=1.2, 
-     col="darkgray", ylim=c(0,1))
+     col="darkgray", ylim=c(0,1.05))
 box(lwd = 4, col = 'black')
 lines(smooth.spline(iocc$rockcov, iocc$estimate, spar=0.45), lwd=8, col="blue")
 # I don't advise that you use smooth.spline when plotting (unless you have a good
@@ -746,7 +746,7 @@ t.ddl$Gamma # colonization probability
 G.1 = list(formula =  ~ 1)
 
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 occ <- mark(t.proc, # processed data
@@ -754,7 +754,8 @@ occ <- mark(t.proc, # processed data
             model.parameters=list(Psi = Psi.1,   # initial occupancy
                                   Gamma = G.1,   # colonization
                                   Epsilon = E.1, # extinciton
-                                  p = p.1))      # detection
+                                  p = p.1),      # detection
+            delete = TRUE)      
 
 
 
