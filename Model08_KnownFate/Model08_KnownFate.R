@@ -94,7 +94,7 @@ head(bd)
 # e.g., 001011 = not studied the 1st year, studied and survived the 2nd year, and died in the 3rd year) 
 # or 000010 (not studied the 1st or 2nd years; studied and survived the 3rd year).
 
-# by looking at the encounter histories, you might notice three typical scenarious:
+# by looking at the encounter histories, you might notice three typical scenarios:
 # for each animal tagged, it...
 # 1. survives to end of study and is detected at each sampling occasion after its release
 # 2. dies sometime during the study and its carcass is found on the first sampling occasion after its death
@@ -103,8 +103,8 @@ head(bd)
 # Censoring
 # it might be rare to observe the time of death for every individual in the study.
 # Animals are 'lost' (i.e., censored) due to radio failure or other reasons like emigration.
-# we estimate the survival function in the presence of censoring
-# it is recommended that, if animals go missing and are found later, then do
+# We estimate the survival function in the presence of censoring.
+# Note: it is recommended that, if animals go missing and are found later, then do
 # not reconstruct unobserved observation times. Rather, censor from dataset and then
 # re-enter under staggered entry.
 
@@ -113,7 +113,7 @@ head(bd)
 
 # let's add a covariate of interest to our dataset
 # fake covariate for body condition at the beginning of the study
-# i.e., body condition when transmitter was placed on an indivudal bird
+# i.e., body condition when transmitter was placed on an individual bird
 bd$bodycond <- NA
 bd$bodycond[1:24] <- sample(1:7, 24, replace=T)
 bd$bodycond[25:48] <- sample(3:10, 24, replace=T)
@@ -172,11 +172,11 @@ names(t.ddl)
 # known-fate data format for encounter histories
 t.proc
 t.proc$nocc
-table(nchar(t.proc$data$ch)) # capture histories are double the length of the number of occassions, which
+table(nchar(t.proc$data$ch)) # capture histories are double the length of the number of occasions, which
 # is how known-fate data are structured
 
 # Known-Fate model has only one parameter: Survival probability
-t.ddl$S # true survival because mortality is known for each bird
+t.ddl$S # true survival because mortality is known for each bird (at least the birds that weren't censored)
 
 
 # Now let's fit a model
@@ -197,12 +197,13 @@ S.body = list(formula =  ~  bodycond)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 mod1 <- mark(t.proc, # processed data
             t.ddl,  # design data
-            model.parameters=list(S = S.body))  # survival probability
+            model.parameters=list(S = S.body), # survival probability
+            delete = TRUE)  
 
 
 # check out model output
