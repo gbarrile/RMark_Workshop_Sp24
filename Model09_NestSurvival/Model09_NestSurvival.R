@@ -25,10 +25,10 @@
 # The Journal of wildlife management, 78(2), 224-230. 
 
 # The code below addresses the question: 
-# How does body condition influence the survival of ducks that we tracked via radio-telemetry?
+# How does the age of the nest and the amount of vegetation surrounding the nest influence nest survival?
 
 # Gabe Barrile - University of Wyoming
-# Last updated 02/24/2024
+# Last updated 02/25/2024
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 
@@ -199,16 +199,18 @@ S.AgePpnGrass = list(formula = ~ NestAge + PpnGrass)
 # directory does not get cluttered
 # Create a new folder called 'models' in your working directory
 # set working directory to that folder
-setwd("G:/Shared drives/wyo-coop-barrile/Boreal_Toad_Project/RS/Population_Modeling_Sp23/Week_3_Closed_Population_Estimation/models")
+setwd()
 
 # fit model
 grass <- mark(mallard.pr, # processed data
               mallard.ddl,  # design data
-              model.parameters=list(S = S.PpnGr))  # survival probability
+              model.parameters=list(S = S.PpnGr), # survival probability
+              delete = TRUE)  
 
 agegrass <- mark(mallard.pr, # processed data
               mallard.ddl,  # design data
-              model.parameters=list(S = S.AgePpnGrass))  # survival probability
+              model.parameters=list(S = S.AgePpnGrass), # survival probability
+              delete = TRUE)
 
 
 # check out model outputs
@@ -222,9 +224,8 @@ grass$results$real # remember that this is daily survival because our data was o
 agegrass$results$real # remember that this is daily survival because our data was organized in days
 
 # derived parameters
-grass$results$derived # overall probability of nest success (I think...)...over the entire study
-agegrass$results$derived # overall probability of nest success (I think...)
-# gabe, remove this?
+grass$results$derived # overall probability of nest success (I think...)...on average over the entire study
+agegrass$results$derived # overall probability of nest success (I think...)...on average over the entire study period
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
@@ -287,8 +288,6 @@ ggplot(AgePpn.survival, aes(x = PpnGrass, y = DSR)) +
   xlab("Proportion Grass on Site") +
   ylab("Estimated DSR") +
   theme_bw()
-
-
 
 
 
