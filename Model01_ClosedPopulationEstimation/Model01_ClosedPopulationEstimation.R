@@ -548,6 +548,7 @@ m3$results$derived
 # Let's try body size as individual covariate on capture probability
 
 # p (capture probability)
+head(d.proc$data)
 pc.svl =list(formula= ~ svl, share = TRUE)
 
 
@@ -573,7 +574,8 @@ m4$results$derived
 # plot relationship between capture probability and body size
 range(boto$svl)
 # make predictions based on model (m4)
-pred.svl <- covariate.predictions(m4, data=data.frame(svl=56:88),indices=c(1))$estimates
+pred.svl <- covariate.predictions(m4, data=data.frame(svl=56:88),
+                                  indices=c(1))$estimates
 
 min(pred.svl$lcl)
 max(pred.svl$ucl)

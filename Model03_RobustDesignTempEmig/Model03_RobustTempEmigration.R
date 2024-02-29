@@ -191,6 +191,8 @@ rm(y,m)
 head(df)
 head(bff)
 
+str(bff)
+
 # make site a factor variable
 bff$site <- as.factor(as.character(bff$site))
 table(bff$site)
@@ -543,7 +545,7 @@ top.aic$results$derived$`N Population Size`
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # let's plot the relationship between precipitation and survival
-
+head(d.proc$data)
 # need to specify the indices correctly (very important!)
 top.aic$pims$S # let's use indices = 1
 
@@ -551,10 +553,10 @@ top.aic$pims$S # let's use indices = 1
 head(bff)
 range(bff[,5:9])
 # notice that we specify ppt2015
-newdat <- data.frame(ppt2015=seq(90, 1350, length.out = 80))
+newdat <- data.frame(ppt2016=seq(90, 1350, length.out = 80))
 
 # predict to newdata
-pred.cov <- covariate.predictions(top.aic, data=newdat, indices=c(1))$estimates
+pred.cov <- covariate.predictions(top.aic, data=newdat, indices=c(32))$estimates
 
 # okay, plot it
 min(pred.cov$lcl)

@@ -247,7 +247,7 @@ AgePpnGrass <- agegrass
 # For ppngrass, use a value of 0.5
 fc <- find.covariates(AgePpnGrass,mallard)
 fc$value[1:35] <- 1:35                      # assign 1:35 to 1st 35 nest ages
-fc$value[fc$var == "PpnGrass"] <- 0.1       # assign new value to PpnGrass
+fc$value[fc$var == "PpnGrass"] <- 0.9       # assign new value to PpnGrass
 design <- fill.covariates(AgePpnGrass, fc)  # fill design matrix with values
 # extract 1st 35 rows of output
 AgePpn.survival <- compute.real(AgePpnGrass, design = design)[1:35, ]
@@ -267,7 +267,7 @@ ggplot(AgePpn.survival, aes(x = Age, y = DSR)) +
   theme_bw()
 
 # assign 17 to 1st 50 nest ages
-fc$value[1:89] <- 17 # can change this and see how relationship changes                    
+fc$value[1:89] <- 35 # can change this and see how relationship changes                    
 # assign range of values to PpnGrass
 fc$value[fc$var == "PpnGrass"] <- seq(0.01, 0.99, length = 89)
 # fill design matrix with values
@@ -284,7 +284,7 @@ AgePpn.survival
 ggplot(AgePpn.survival, aes(x = PpnGrass, y = DSR)) +
   geom_line() +
   geom_ribbon(aes(ymin = lclDSR, ymax = uclDSR), alpha = 0.3) +
-  ylim(0.92,0.97)+
+  #ylim(0.92,0.97)+
   xlab("Proportion Grass on Site") +
   ylab("Estimated DSR") +
   theme_bw()
@@ -297,7 +297,8 @@ grass$pims$S
 # create sequence of values to predict over
 range(bd$PpnGrass)
 # new data
-newdat <- data.frame(PpnGrass=seq(0.01, 0.99, length.out = 89))
+newdat <- data.frame(PpnGrass=seq(0.01, 0.99, 
+                                  length.out = 89))
 
 # predict to newdata
 pred.cov <- covariate.predictions(grass, data=newdat, indices=c(1))$estimates

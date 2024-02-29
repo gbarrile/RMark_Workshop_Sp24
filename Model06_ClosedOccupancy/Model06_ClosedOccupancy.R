@@ -275,7 +275,7 @@ setup.model(model = "") # 91 models
 
 # now, process data in RMark format
 t.proc = process.data(bts, model = "Occupancy", 
-                      # groups = "island", 
+                      groups = "island", 
                       begin.time = 1)
 
 # create design data
@@ -304,7 +304,7 @@ t.ddl$Psi # occupancy probability
 head(t.proc)
 # let's model occupancy probability as the interactive function of forest cover and prey availability
 Psi.int = list(formula =  ~  forest * prey)
-
+Psi.int = list(formula =  ~  island)
 
 # Now fit the model
 
@@ -317,7 +317,7 @@ setwd()
 # fit model
 occ <- mark(t.proc, # processed data
             t.ddl,  # design data
-            model.parameters=list(Psi = Psi.int,   # initial occupancy
+            model.parameters=list(Psi = Psi.int,   # occupancy
                                   p =   p.temp),   # detection
             delete = TRUE)     
 
@@ -357,15 +357,16 @@ occ$results$derived
 
 # need to specify the indices correctly (very important!)
 occ$pims$p # let's use indices = 1
+t.ddl$p
 
 # create sequence of values to predict over
 head(bts)
 range(bts[,7:12])
 # notice that we specify temp1
-newdat <- data.frame(temp1=seq(21, 40, length.out = 80))
+newdat <- data.frame(temp6=seq(21, 40, length.out = 80))
 
 # predict to newdata
-pred.cov <- covariate.predictions(occ, data=newdat, indices=c(1))$estimates
+pred.cov <- covariate.predictions(occ, data=newdat, indices=c(6))$estimates
 
 # okay, plot it
 head(pred.cov)
@@ -394,7 +395,7 @@ range(bts$prey)
 # create sequence of values to plot over
 y2 <- seq(10,94,length.out=100)
 
-occ$pims$Psi # can use 169
+occ$pims$Psi # can use 7
 
 # predict 
 pred.matrix1 <- array(NA, dim = c(100, 100)) # Define arrays

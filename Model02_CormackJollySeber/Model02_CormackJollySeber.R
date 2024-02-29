@@ -302,7 +302,7 @@ setwd()
 # hold phi at high complexity (Phi.glob) while varying structures for capture prob
 
 # 1. constant
-m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.glob), delete = TRUE)
+m.     <- mark(d.proc, d.ddl, model.parameters = list(p = p., Phi = Phi.glob))
 # 2. year (time)
 m.t    <- mark(d.proc, d.ddl, model.parameters = list(p = p.t, Phi = Phi.glob), delete = TRUE)
 # 3. year (Time)

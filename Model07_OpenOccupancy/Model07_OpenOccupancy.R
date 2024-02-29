@@ -140,7 +140,7 @@ m$Site <- as.factor(as.character(m$Site))
 m <- m %>% arrange(Total.Survey)
 
 # pivot data to wide format
-y <- m %>% pivot_wider(names_from = Total.Survey, values_from = Eggs, values_fill = 0)
+y <- m %>% pivot_wider(id_cols = Site, names_from = Total.Survey, values_from = Eggs, values_fill = 0)
 y
 
 # create detection history as character string
@@ -604,7 +604,7 @@ occ$pims$Epsilon # let's use indices = 9
 head(tern)
 range(tern[,4:8])
 # notice that we specify ppl2015
-newdat <- data.frame(ppl2015=seq(12, 29, length.out = 40))
+newdat <- data.frame(ppl2015=seq(12, 28, length.out = 40))
 
 # predict to newdata
 pred.cov <- covariate.predictions(occ, data=newdat,indices=c(9))$estimates

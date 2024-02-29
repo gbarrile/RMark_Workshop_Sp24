@@ -120,9 +120,9 @@ bd$bodycond[25:48] <- sample(3:10, 24, replace=T)
 
 head(bd)
 # how many known to be dead?
-# value <- "11"
-# chars <- bd$ch
-# table(grepl(value, chars, fixed = TRUE)) # 18 of 48 birds are known to have died
+#value <- "11"
+#chars <- bd$ch
+#table(grepl(value, chars, fixed = TRUE)) # 18 of 48 birds are known to have died
 # we likely don't know whether every animal died or not...some animals are 'censored'
 
 rm(Blackduck)
@@ -188,7 +188,7 @@ t.ddl$S # true survival because mortality is known for each bird (at least the b
 t.ddl$S # survival probability
 head(t.proc$data)
 # let's model survival as a function of body condition at the beginning of the study
-S.body = list(formula =  ~  bodycond)
+S.body = list(formula =  ~  time)
 
 
 # Now fit the model
@@ -218,6 +218,7 @@ mod1$results$real # this is survival over whatever interval the study was conduc
 # derived parameters
 mod1$results$derived # probability an animal survives the entire study period (I think)
 
+0.9418796^8
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
@@ -237,7 +238,8 @@ range(bd$bodycond)
 newdat <- data.frame(bodycond=seq(1, 10, length.out = 40))
 
 # predict to newdata
-pred.cov <- covariate.predictions(mod1, data=newdat, indices=c(1))$estimates
+pred.cov <- covariate.predictions(mod1, 
+                                  data=newdat, indices=c(1))$estimates
 
 # okay, plot it
 min(pred.cov$lcl)
@@ -252,6 +254,8 @@ lines(pred.cov$covdata, pred.cov$estimate, lwd=8, col="blue")
 lines(pred.cov$covdata, pred.cov$lcl, lwd=4, lty=2, col="black")
 lines(pred.cov$covdata, pred.cov$ucl, lwd=4, lty=2, col="black")
 
+0.98^8
+0.8^8
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 # END

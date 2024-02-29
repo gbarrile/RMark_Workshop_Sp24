@@ -313,7 +313,7 @@ d.ddl$p$fix[d.ddl$p$session == "2018" & d.ddl$p$time == "5" & d.ddl$p$stratum== 
 d.ddl$p$fix[d.ddl$p$session == "2018" & d.ddl$p$time == "6" & d.ddl$p$stratum== "B"] <- 0
 
 # now do the same for c
-d.ddl$c
+d.ddl$Psi
 
 d.ddl$c$fix <- NA
 

@@ -445,7 +445,7 @@ m.precip$results$derived$`N Population Size`
 # derived parameters (population growth rate (lambda))
 m.precip$results$derived$`Lambda Population Change`
 
-
+head(d.ddl$Phi)
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
@@ -468,13 +468,13 @@ m.precip$results$derived$`Lambda Population Change`
 names(bff)
 range(bff[,5:9])
 # create sequence of values to plot over
-x2 <- seq(50,1400,length.out=100)
+x2 <- seq(90,1350,length.out=100)
 
 # rh
 names(bff)
 range(bff[,10])
 # create sequence of values to plot over
-y2 <- seq(0,1,length.out=100)
+y2 <- seq(0.15,0.88,length.out=100)
 
 m.precip$pims$Phi
 
@@ -508,7 +508,7 @@ head(predictis)
 # use color-blind friendly fill for plot
 library(viridis)
 
-ggplot(predictis, aes(ppt2015, rh, fill= estimate)) + 
+ggplot(predictis, aes(ppt2016, rh, fill= estimate)) + 
   geom_tile() +
   scale_fill_viridis(discrete=FALSE) +
   guides(fill = guide_colourbar(title = "Survival"))
@@ -553,15 +553,15 @@ title(main = "Expected recruitment rate", font.main = 1)
 
 
 # plot with ggplot
-xy <- expand.grid(ppt2015=x2, rh=y2)
+xy <- expand.grid(ppt2016=x2, rh=y2)
 
-predictis=covariate.predictions(m.precip, data=xy, indices=17)$estimates
+predictis=covariate.predictions(m.precip, data=xy, indices=18)$estimates
 head(predictis)
 
 # use color-blind friendly fill for plot
 library(viridis)
 
-ggplot(predictis, aes(ppt2015, rh, fill= estimate)) + 
+ggplot(predictis, aes(ppt2016, rh, fill= estimate)) + 
   geom_tile() +
   scale_fill_viridis(discrete=FALSE) +
   guides(fill = guide_colourbar(title = "Recruitment"))
@@ -662,6 +662,11 @@ popgrowth
 # ---- 6) Alternate parameterizations and finite-mixture models -----
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
+d.ddl$Phi
+d.ddl$f
+d.ddl$p
+m.precip$pims$p
+
 # Different recruitment rate parameterizations
 # RDPdfClosed
 # RDPdfHuggins
@@ -721,7 +726,8 @@ popgrowth
 d.proc=process.data(bff, 
                     model="RDPdfFullHet",
                     time.intervals=intervals, 
-                    groups = c("site"), 
+                    groups = c("site"),
+                    mixtures = 3,
                     begin.time = 2015)
 
 # look at processed data
@@ -736,6 +742,59 @@ d.ddl <- make.design.data(d.proc)
 names(d.ddl)
 
 d.ddl$p # now includes a 'mixture' column
+d.ddl$pi
+
+stmod = list(formula=~1)
+mix = list(formula=~mixture)
+
+
+# HOW TO ADD TRANSIENCE IN RMARK MODELS
+
+# look at ddl for survival
+head(d.ddl$Phi)
+
+# add a 'time since marking' variable to the survival ddl
+d.ddl$Phi$tsm <- NA   # add new column
+d.ddl$Phi$tsm <- "1"  # most values in the column will be 1's (though we will want this as a factor variable)
+
+# when individiuals first enter the mark-recap dataset, they get assigned age = 0
+# we want to assign this a different factor level than all subsequent encounters because we want to 'identify'
+# individuals that only appear in the dataset once as potential transients
+d.ddl$Phi$tsm[d.ddl$Phi$age=="0"] <- "0" 
+
+# make sure the new variable is a factor
+d.ddl$Phi$tsm <- as.factor(d.ddl$Phi$tsm)
+str(d.ddl$Phi)
+
+# take a peak at the ddl
+head(d.ddl$S)
+
+# Potential structure for survival
+tm = list(formula=~tsm)
+
+
+# fit models
+# precipitation * rangeland health for both survival and recruitment
+m.precip <- mark(d.proc, d.ddl, 
+                 model.parameters=list(p  = mix, 
+                                       Phi = tm, 
+                                       f   = stmod,
+                                       pi = stmod,
+                                       c = stmod), 
+                 delete = TRUE)
+
+m.precip$results$beta
+m.precip$results$real
+#get.real(m.precip, "p")
+
+
+
+
+
+
+
+
+
 
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
